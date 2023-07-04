@@ -1,0 +1,13 @@
+.DS_Store
+/app/*/**.DS_Store
+/app/logs
+/app/*.log
+/app/npm-debug.log*
+/app/yarn-debug.log*
+/app/yarn-error.log*
+/app/node_modules
+/app/dist
+/app/dist-ssr
+/app/*.local
+/app/.vscode/*
+/app/coverage
