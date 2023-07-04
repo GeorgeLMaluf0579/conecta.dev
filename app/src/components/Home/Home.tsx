@@ -7,10 +7,18 @@ import { DisplayPagesEnum } from "../../enums/DisplayPagesEnum";
 
 const Home = () => {
   const [currentPage, setCurrentPage] = useState(DisplayPagesEnum.listCustomer);
-  const [customerList] = useState(dummyCustomerList as ICustomer[]);
+  const [customerList, setCustomerList] = useState(dummyCustomerList as ICustomer[]);
 
-  const onAddCustomerClickHandler = () => {
+  const onAddCustomerClick = () => {
     setCurrentPage(DisplayPagesEnum.addCustomer)
+  }
+
+  const showListPage = () => {
+    setCurrentPage(DisplayPagesEnum.listCustomer)
+  }
+
+  const addCustomer = (data: ICustomer) =>  {
+    setCustomerList([...customerList, data])
   }
 
   return(
@@ -26,12 +34,14 @@ const Home = () => {
           <>
             <div>
               Customers
-              <input type="button" value="New Customer"  onClick={onAddCustomerClickHandler}/>
+              <input type="button" value="New Customer"  onClick={onAddCustomerClick}/>
             </div>
             <CustomerList list={customerList}/>
           </>
         }
-        {currentPage == DisplayPagesEnum.addCustomer && <AddCustomer />}
+        {currentPage == DisplayPagesEnum.addCustomer && ( 
+          <AddCustomer onBackButtonClickHnd={showListPage} onSubmitButtonClickHnd={addCustomer}  />
+        )}
       </section>
     </>
   )
