@@ -21,6 +21,14 @@ const Home = () => {
     setCustomerList([...customerList, data])
   }
 
+  const delCustomer = (data: ICustomer) => {
+    const indexToDelete = customerList.indexOf(data);
+    const tempList = [...customerList];
+
+    tempList.splice(indexToDelete, 1);
+    setCustomerList(tempList);
+  }
+
   return(
     <>
       <article className="article-header">
@@ -37,7 +45,7 @@ const Home = () => {
               <h3>Customers</h3>
               <hr />
             </div>
-            <CustomerList list={customerList}/>
+            <CustomerList list={customerList} onDeleteClickHnd={delCustomer}/>
           </>
         }
         {currentPage == DisplayPagesEnum.addCustomer && ( 
