@@ -1,5 +1,13 @@
 version: "3"
 services:
+  db:
+    image: postgres:11-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    env_file:
+      - ".env"
   app:
     build: ./app
     ports:
@@ -9,3 +17,6 @@ services:
     volumes:
       - ./app:/app
       - /app/node_modules
+
+volumes:
+  db_data:
