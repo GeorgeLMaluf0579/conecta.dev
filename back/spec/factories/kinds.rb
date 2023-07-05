@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :kind do
-    description { "standard" }
+    description { Faker::Name.name[0..40] }
   end
 end
