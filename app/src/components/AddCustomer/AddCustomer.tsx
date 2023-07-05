@@ -2,7 +2,10 @@ import { useState, useEffect } from "react"
 import "./AddCustomer.style.css"
 import { ICustomer } from "../../types/Customer.type"
 import { IKind } from "../../types/Kind.type"
-import KindDataService from "../../services/KindDataService"
+import { KindList } from "../../hooks/KindList.hook"
+import { CountryList } from "../../hooks/CountryList.hook"
+import { ICountry } from "../../types/Country.type"
+// import KindDataService from "../../services/KindDataService"
 
 type Props = {
   onBackButtonClickHnd: () => void
@@ -16,18 +19,8 @@ const AddCustomer = (props: Props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [kind, setKind] = useState("");
-  const [kindsList, setKindsList] = useState<any>([]);
-
-  async function fetchKindsList() {
-    KindDataService.getAll()
-      .then((response: {data: IKind[]}) => {
-        setKindsList(response.data)
-      })
-  }
-
-  useEffect (() => {
-    fetchKindsList()
-  },[]);
+  const { kindsList } = KindList();
+  const { countriesList } = CountryList();
   
   const onNameChanged  = (e: any) => {
     setName(e.target.value)
@@ -72,6 +65,14 @@ const AddCustomer = (props: Props) => {
         <div>
           <label>Email :</label>
           <input type="text" value={email} onChange={onEmailChanged}/>          
+        </div>
+        <div>
+          <label>Country :</label>
+          <select>
+            {countriesList && countriesList.map((c: ICountry, index: number) => (
+              <option key={index} value={c.id}>{c.name}</option>
+            ))}
+          </select>
         </div>
         <div>
           <label>Kind :</label>
