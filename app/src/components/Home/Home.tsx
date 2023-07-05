@@ -4,10 +4,12 @@ import { ICustomer, dummyCustomerList } from "../../types/Customer.type";
 import CustomerList from "../CustomerList/CustomerList";
 import AddCustomer from "../AddCustomer/AddCustomer";
 import { DisplayPagesEnum } from "../../enums/DisplayPagesEnum";
+import EditCustomer from "../EditCustomer/EditCustomer";
 
 const Home = () => {
   const [currentPage, setCurrentPage] = useState(DisplayPagesEnum.listCustomer);
   const [customerList, setCustomerList] = useState(dummyCustomerList as ICustomer[]);
+  const [currentCustomer, setCurrentCustomer] = useState(null as null | ICustomer)
 
   const onAddCustomerClick = () => {
     setCurrentPage(DisplayPagesEnum.addCustomer)
@@ -21,11 +23,24 @@ const Home = () => {
     setCustomerList([...customerList, data])
   }
 
+  const editCustomer = (data: ICustomer) => {
+    setCurrentPage(DisplayPagesEnum.editCustomer);
+    setCurrentCustomer(data);
+  }
+
   const delCustomer = (data: ICustomer) => {
     const indexToDelete = customerList.indexOf(data);
     const tempList = [...customerList];
 
     tempList.splice(indexToDelete, 1);
+    setCustomerList(tempList);
+  }
+
+  const updateCustomer = (data: ICustomer) => {
+    const filteredData = customerList.filter(x=> x.id === data.id)[0];
+    const indexToUpdate = customerList.indexOf(filteredData);
+    const tempList = [...customerList];
+    tempList[indexToUpdate] = data;
     setCustomerList(tempList);
   }
 
@@ -45,11 +60,14 @@ const Home = () => {
               <h3>Customers</h3>
               <hr />
             </div>
-            <CustomerList list={customerList} onDeleteClickHnd={delCustomer}/>
+            <CustomerList list={customerList} onEditClickHnd={editCustomer} onDeleteClickHnd={delCustomer} />
           </>
         }
         {currentPage == DisplayPagesEnum.addCustomer && ( 
           <AddCustomer onBackButtonClickHnd={showListPage} onSubmitButtonClickHnd={addCustomer}  />
+        )}
+        {currentPage == DisplayPagesEnum.editCustomer && currentCustomer != null && (
+          <EditCustomer customer={currentCustomer} onBackButtonClickHnd={showListPage} onUpdateButtonClickHnd={updateCustomer} />
         )}
       </section>
     </>

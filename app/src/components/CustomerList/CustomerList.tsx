@@ -5,11 +5,12 @@ import "./CustomerList.style.css"
 
 type Props = {
   list: ICustomer[];
-  onDeleteClickHnd: (data: ICustomer) => void
+  onDeleteClickHnd: (data: ICustomer) => void;
+  onEditClickHnd: (data: ICustomer) => void;
 };
 
 const CustomerList = (props: Props) => {
-  const { list, onDeleteClickHnd } = props;
+  const { list, onDeleteClickHnd, onEditClickHnd } = props;
   const [showCustomerModal, setShowCustomerModal] = useState(false);
   const [currentCustomer, setCurrentCustomer] = useState(null as ICustomer | null);
 
@@ -43,7 +44,7 @@ const CustomerList = (props: Props) => {
               <td>
                 <div>
                   <input type="button" value="Details" onClick={() => onDetailClick(customer)}  />
-                  <input type="button" value="Edit" />
+                  <input type="button" value="Edit" onClick={()=> onEditClickHnd(customer)} />
                   <input type="button" value="Delete" onClick={() => onDeleteClickHnd(customer)} />
                 </div>
               </td>

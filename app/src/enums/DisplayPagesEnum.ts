@@ -1,4 +1,5 @@
 export enum DisplayPagesEnum {
   listCustomer,
-  addCustomer
+  addCustomer,
+  editCustomer
 }
