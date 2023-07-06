@@ -3,7 +3,7 @@ import { ICountry } from "../types/Country.type";
 
 class CountryDataService {
   getAll() {
-    return http.get<Array<ICountry>>("/countries");
+    return http.get<ICountry[]>("/countries");
   }
 }
 

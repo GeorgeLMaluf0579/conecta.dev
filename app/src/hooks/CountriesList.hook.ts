@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import CountryDataService from "../services/CountryDataService"
 import { ICountry } from "../types/Country.type"
 
-export const CountryList = () => {
+export const CountriesList = () => {
   const [countriesList, setCountriesList] = useState<any>([])
 
   async function fetchCountriesList() {

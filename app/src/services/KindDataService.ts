@@ -3,7 +3,7 @@ import { IKind } from "../types/Kind.type";
 
 class KindDataService {
   getAll() {
-    return http.get<Array<IKind>>("/kinds");
+    return http.get<IKind[]>("/kinds");
   }
 }
 

@@ -1,18 +1,21 @@
 import { useState } from "react";
 import { ICustomer } from "../../types/Customer.type";
 import CustomerModal from "../CustomerModal/CustomerModal";
+import { CustomersList } from "../../hooks/CustomersList.hook";
+
 import "./CustomerList.style.css"
 
 type Props = {
-  list: ICustomer[];
   onDeleteClickHnd: (data: ICustomer) => void;
   onEditClickHnd: (data: ICustomer) => void;
 };
 
 const CustomerList = (props: Props) => {
-  const { list, onDeleteClickHnd, onEditClickHnd } = props;
+  const { onDeleteClickHnd, onEditClickHnd } = props;
   const [showCustomerModal, setShowCustomerModal] = useState(false);
   const [currentCustomer, setCurrentCustomer] = useState(null as ICustomer | null);
+
+  const { customersList } = CustomersList();
 
   const onDetailClick = (data: ICustomer) => {
     setCurrentCustomer(data);
@@ -30,22 +33,24 @@ const CustomerList = (props: Props) => {
           <tr>
             <th>Name</th>
             <th>Email</th>
+            <th>Country</th>
             <th>Kind</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-        {list.map(customer => {
+        {customersList && customersList.map((customer: ICustomer, index: number) => {
           return (
-            <tr key={customer.id}>
+            <tr key={index}>
               <td>{customer.name}</td>
               <td>{customer.email}</td>
+              <td>{customer.country}</td>
               <td>{customer.kind}</td>
               <td>
                 <div>
                   <input type="button" value="Details" onClick={() => onDetailClick(customer)}  />
-                  <input type="button" value="Edit" onClick={()=> onEditClickHnd(customer)} />
-                  <input type="button" value="Delete" onClick={() => onDeleteClickHnd(customer)} />
+                  <input type="button" value="Edit" onClick={()=> onEditClickHnd(customer.id)} />
+                  <input type="button" value="Delete" onClick={() => onDeleteClickHnd(customer.id)} />
                 </div>
               </td>
             </tr>

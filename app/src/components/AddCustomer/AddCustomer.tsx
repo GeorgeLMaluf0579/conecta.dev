@@ -2,8 +2,8 @@ import { useState, useEffect } from "react"
 import "./AddCustomer.style.css"
 import { ICustomer } from "../../types/Customer.type"
 import { IKind } from "../../types/Kind.type"
-import { KindList } from "../../hooks/KindList.hook"
-import { CountryList } from "../../hooks/CountryList.hook"
+import { KindsList } from "../../hooks/KindsList.hook"
+import { CountriesList } from "../../hooks/CountriesList.hook"
 import { ICountry } from "../../types/Country.type"
 // import KindDataService from "../../services/KindDataService"
 
@@ -19,8 +19,8 @@ const AddCustomer = (props: Props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [kind, setKind] = useState("");
-  const { kindsList } = KindList();
-  const { countriesList } = CountryList();
+  const { kindsList } = KindsList();
+  const { countriesList } = CountriesList();
   
   const onNameChanged  = (e: any) => {
     setName(e.target.value)

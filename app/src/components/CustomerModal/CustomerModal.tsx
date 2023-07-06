@@ -23,6 +23,9 @@ const CustomerModal = (props: Props) => {
               <label>Email : {customer.email} </label>
             </div>
             <div>
+              <label>Country : {customer.country}</label>
+            </div>
+            <div>
               <label>Kind : {customer.kind}</label>
             </div>
           </div>
