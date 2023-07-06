@@ -64,8 +64,8 @@ const Home = () => {
       <section className="section-content">
         {currentPage == DisplayPagesEnum.listCustomer && 
           <>
-            <div>
-              <div>
+            <div className="section-bar" >
+              <div className="section-header">
                 <h3>Customers</h3>
                 <div>
                   <form onSubmit={onSearchClick}>
@@ -75,8 +75,8 @@ const Home = () => {
                 </div>
                 <input className="add-customer-btn" type="button" value="New Customer"  onClick={onAddCustomerClick}/>
               </div>
-              <hr />
             </div>
+            <hr />
             <CustomerList customersList={customersList}  onEditClickHnd={editCustomer} />
           </>
         }

@@ -10,3 +10,27 @@
   margin-right: 10%;
   margin-top: 15px;
 }
+
+.section-bar { 
+  display: flex;
+  flex-direction: column;
+}
+
+.section-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.section-header h3 {
+  margin-right: auto;
+}
+
+.section-header form {
+  flex-grow: 1;
+  margin: 0 10px;
+}
+
+.add-customer-btn {
+  margin-left: 10px;
+}
