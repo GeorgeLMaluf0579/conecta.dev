@@ -3,7 +3,7 @@
 module Api
   module V1
     class CustomersController < ApplicationController
-      before_action :set_customer, only: %i[show]
+      before_action :set_customer, only: %i[show destroy]
 
       def index
         @customers = CustomersServices.new.list_all
@@ -27,7 +27,12 @@ module Api
         end
       end
 
+      def destroy
+        @customer.destroy
+      end
+
       private
+
       def set_customer
         @customer = Customer.find(params[:id])
       end

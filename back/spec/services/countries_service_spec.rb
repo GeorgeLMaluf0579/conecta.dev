@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe CountriesService do
-  describe "#list_all" do
+  describe '#list_all' do
     before do
       @countries_list = create_list(:country, 3)
     end

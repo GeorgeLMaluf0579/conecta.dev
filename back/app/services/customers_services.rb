@@ -9,7 +9,6 @@ class CustomersServices
     Customer.new(name: params[:name],
                  email: params[:email],
                  kind: Kind.find(params[:kind_id]),
-                 country: Country.find(params[:country_id])
-                )
+                 country: Country.find(params[:country_id]))
   end
 end
