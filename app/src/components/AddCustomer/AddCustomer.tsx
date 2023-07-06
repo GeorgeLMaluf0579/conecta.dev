@@ -1,27 +1,29 @@
 import { useState, useEffect } from "react"
-import "./AddCustomer.style.css"
-import { ICustomer } from "../../types/Customer.type"
 import { IKind } from "../../types/Kind.type"
 import { useKindsList } from "../../hooks/kinds/useKindsList.hook"
 import { useCountriesList } from "../../hooks/countries/useCountriesList.hook"
 import { ICountry } from "../../types/Country.type"
-// import KindDataService from "../../services/KindDataService"
+import CustomerDataService from "../../services/CustomerDataService"
+
+import "./AddCustomer.style.css"
 
 type Props = {
   onBackButtonClickHnd: () => void
-  onSubmitButtonClickHnd: (data: ICustomer) => void
 }
 
 const AddCustomer = (props: Props) => {
-  const {onBackButtonClickHnd,
-         onSubmitButtonClickHnd } = props 
+  const {onBackButtonClickHnd } = props 
   
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [kind, setKind] = useState("");
+  
+
   const { kindsList } = useKindsList();
   const { countriesList } = useCountriesList();
   
+  const [kind, setKind] = useState(0);
+  const [country, setCountry] = useState(0);
+
   const onNameChanged  = (e: any) => {
     setName(e.target.value)
   }
@@ -34,22 +36,25 @@ const AddCustomer = (props: Props) => {
     setKind(e.target.value)
   }
 
+  const onCountryChanged = (e: any) =>  {
+    setCountry(e.target.value)
+  }
+
   const onSubmitButtonClick = (e:any) => {
     e.preventDefault();
-    // const customer: ICustomer =  {
-    //   id: 1,
-    //   name: name,
-    //   email: email,
-    //   subscriber_email: undefined,
-    //   kind: kind,
-    //   country: "USA",
-    //   password: "8a6e0804-2bd0-4672",
-    //   log_entries: 1,
-    //   orders: 1,
-    //   life_value: 100.2
-    // };
-    onSubmitButtonClickHnd(customer);
-    onBackButtonClickHnd();
+    const data = {
+      name: name,
+      email: email,
+      kind_id: kind,
+      country_id: country,
+    };
+
+    CustomerDataService.create(data)
+      .then((response: any) => {
+        if (response.status === 201) {
+          onBackButtonClickHnd();
+        }
+      })
   }
 
   return(
@@ -68,7 +73,7 @@ const AddCustomer = (props: Props) => {
         </div>
         <div>
           <label>Country :</label>
-          <select>
+          <select onChange={onCountryChanged}>
             {countriesList && countriesList.map((c: ICountry, index: number) => (
               <option key={index} value={c.id}>{c.name}</option>
             ))}
@@ -76,12 +81,11 @@ const AddCustomer = (props: Props) => {
         </div>
         <div>
           <label>Kind :</label>
-          <select>
+          <select onChange={onKindChanged}>
             {kindsList && kindsList.map((k:IKind, index: number) => (
               <option key={index} value={k.id}>{k.description}</option>
             ))}
           </select>
-          <input type="text" value={kind} onChange={onKindChanged}/>
         </div>
         <div>
           <input type="button" value="Back" onClick={ onBackButtonClickHnd } />

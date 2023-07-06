@@ -23,10 +23,6 @@ const Home = () => {
     setCurrentPage(DisplayPagesEnum.listCustomer)
   }
 
-  const addCustomer = (data: ICustomer) =>  {
-    // setCustomerList([...customerList, data])
-  }
-
   const editCustomer = (data: ICustomer) => {
     setCurrentPage(DisplayPagesEnum.editCustomer);
     setCurrentCustomer(data);
@@ -68,7 +64,7 @@ const Home = () => {
           </>
         }
         {currentPage == DisplayPagesEnum.addCustomer && ( 
-          <AddCustomer onBackButtonClickHnd={showListPage} onSubmitButtonClickHnd={addCustomer}  />
+          <AddCustomer onBackButtonClickHnd={showListPage} />
         )}
         {currentPage == DisplayPagesEnum.editCustomer && currentCustomer != null && (
           <EditCustomer customer={currentCustomer} onBackButtonClickHnd={showListPage} onUpdateButtonClickHnd={updateCustomer} />

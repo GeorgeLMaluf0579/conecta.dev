@@ -9,6 +9,10 @@ class CustomerDataService {
   getById( id:number) {
     return http.get<ICustomer>(`/customers/${id}`)
   }
+
+  create( data: any) {
+    return http.post<ICustomer>("/customers", data);
+  }
 }
 
 export default new CustomerDataService;
