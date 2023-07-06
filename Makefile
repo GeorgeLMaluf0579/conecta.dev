@@ -22,10 +22,3 @@ docker-down:
 #TESTS
 docker-back-tests:
 	  docker-compose run --rm back bundle exec rspec
-
-#docker-front-tests:
-#		docker-compose run --rm front npm run test
-
-docker-all-tests:
-		make docker-back-tests
-#		make docker-front-tests

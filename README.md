@@ -75,7 +75,7 @@ This solution was developed using the following technologies:
   ```
   Open your favorite browser and access the following url:
   ```
-  http://localhost:3001
+  http://localhost:8080
   ```
   You can use the sample file (example_input.tab) on project root folder to test the import process
 
@@ -84,16 +84,8 @@ To execute backend test suite:
 ```
 $ make docker-back-tests
 ```
-To execute frontend test suite:
-```
-$ make docker-front-tests
-```
-To execute both test suites:
-```
-$ make docker-all-tests
-```
 
-After the exection of test suite, a subfolder called coverage will be created or update inside of each project.
+After the exection of test suite, a subfolder called coverage will be created or update inside of backend project.
 
 ## 👨🏻‍💻 Autor
 Made by George Luiz 'Maverick' Maluf
