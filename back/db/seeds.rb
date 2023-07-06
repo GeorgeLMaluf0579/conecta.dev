@@ -5,11 +5,11 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Kind.create([{ description: 'standard' },
+kinds = Kind.create([{ description: 'standard' },
              { description: 'professional' },
              { description: 'premium' }])
 
-Country.create([{ name: 'United States' }, { name: 'Canada' },  { name: 'Afghanistan' }, 
+countries= Country.create([{ name: 'United States' }, { name: 'Canada' }, { name: 'Brazil' },  { name: 'Afghanistan' }, 
                 { name: 'Albania' }, { name: 'Algeria' }, { name: 'American Samoa' },
                 { name: 'Andorra' }, { name: 'Angola' }, { name: 'Anguilla' },
                 { name: 'Antarctica' }, { name: 'Antigua and/or Barbuda' }, { name: 'Argentina' },
@@ -19,7 +19,7 @@ Country.create([{ name: 'United States' }, { name: 'Canada' },  { name: 'Afghani
                 { name: 'Belarus' }, { name: 'Belgium' }, { name: 'Belize' }, 
                 { name: 'Benin' }, { name: 'Bermuda' }, { name: 'Bhutan' },
                 { name: 'Bolivia' }, { name: 'Bosnia and Herzegovina' }, { name: 'Botswana' },
-                { name: 'Bouvet Island' }, { name: 'Brazil' }, { name: 'British Indian Ocean Territory' },
+                { name: 'Bouvet Island' },  { name: 'British Indian Ocean Territory' },
                 { name: 'Brunei Darussalam' }, { name: 'Bulgaria' }, { name: 'Burkina Faso' },
                 { name: 'Burundi' }, { name: 'Cambodia' }, { name: 'Cameroon' },
                 { name: 'Cape Verde' }, { name: 'Cayman Islands' }, { name: 'Central African Republic' },
@@ -86,4 +86,17 @@ Country.create([{ name: 'United States' }, { name: 'Canada' },  { name: 'Afghani
                 { name: 'Virgin Islands (U.S.)' }, { name: 'Wallis and Futuna Islands' },
                 { name: 'Western Sahara' }, { name: 'Yemen' },  { name: 'Yugoslavia' },
                 { name: 'Zaire' }, { name: 'Zambia' },  { name: 'Zimbabwe'}
+])
+
+Customer.create([
+                  { name: "John Doe", email: "johndoe@example.com", kind: kinds.first, country: countries.first  },
+                  { name: "Jane Smith", email: "janesmith@example.com", kind: kinds.second, country: countries.second},
+                  { name: "Michael Johnson", email: "michaeljohnson@example.com", kind: kinds.first, country: countries.first },
+                  { name: "Emily Davis", email: "emilydavis@example.com", kind: kinds.second, country: countries.second },
+                  { name: "David Wilson", email: "davidwilson@example.com",kind: kinds.first, country: countries.first},
+                  { name: "Olivia Taylor", email: "oliviataylor@example.com", kind: kinds.second, country: countries.second },
+                  { name: "William Anderson", email: "williamanderson@example.com", kind: kinds.first, country: countries.first},
+                  { name: "Sophia Martinez", email: "sophiamartinez@example.com", kind: kinds.second, country: countries.second },
+                  { name: "James Thompson", email: "jamesthompson@example.com", kind: kinds.first, country: countries.first },
+                  { name: "Ava Garcia", email: "avagarcia@example.com", kind: kinds.third, country: countries.third }
 ])
