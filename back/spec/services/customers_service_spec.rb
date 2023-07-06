@@ -38,4 +38,36 @@ RSpec.describe CustomersServices do
       end
     end
   end
+
+  describe '#search' do
+    before :each do
+      @customers_list = create_list(:customer, 2)
+      @customer = create(:customer, name: 'John Wick')
+    end
+
+    after :each do
+      DatabaseCleaner.clean
+    end
+
+    it 'expect return only one customer' do
+      aggregate_failures do
+        expect(service.search('John W')).not_to be_blank
+        expect(service.search('John W').count).to eq 1
+      end
+    end
+
+    it 'return all customers' do
+      aggregate_failures do
+        expect(service.search('')).not_to be_blank
+        expect(service.search('').count).to eq 3
+      end
+    end
+
+    it 'no customers found' do
+      aggregate_failures do
+        expect(service.search('abcdefgh')).to be_blank
+        expect(service.search('abcdefgh').count).to eq 0
+      end
+    end
+  end
 end

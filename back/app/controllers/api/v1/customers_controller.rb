@@ -41,6 +41,11 @@ module Api
         @customer.destroy
       end
 
+      def search
+        @customers = CustomersServices.new.search(search_params[:name])
+        render json: @customers, status: :ok
+      end
+
       private
 
       def set_customer
@@ -49,6 +54,10 @@ module Api
 
       def customer_params
         params.permit(:name, :email, :kind_id, :country_id)
+      end
+
+      def search_params
+        params.permit(:name)
       end
     end
   end

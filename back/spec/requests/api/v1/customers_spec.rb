@@ -73,12 +73,42 @@ RSpec.describe 'Api::V1::Customers', type: :request do
     end
   end
 
+  describe '#search' do
+    before :each do
+      @customers_list = create_list(:customer, 2)
+    end
+
+    after :each do
+      Customer.destroy_all
+      Kind.destroy_all
+      Country.destroy_all
+    end
+
+    let(:params) { {name: ''} }
+    it 'without search name' do
+      aggregate_failures do
+        get search_api_v1_customers_path, params: params
+        expect(response).to have_http_status(:ok)
+        expect(JSON.parse(response.body).count).to eq 2
+      end
+    end
+
+    context 'with search name parameter' do
+      let(:params) { { name: @customers_list[0].name } }
+      it 'return one customer' do
+        get search_api_v1_customers_path, params: params
+        expect(response).to have_http_status(:ok)
+        expect(JSON.parse(response.body).count).to eq 1
+      end
+    end
+  end
+
   describe '#destroy' do
-    before :all do
+    before :each do
       @customer = create(:customer)
     end
 
-    after :all do
+    after :each do
       Customer.destroy_all
       Kind.destroy_all
       Country.destroy_all

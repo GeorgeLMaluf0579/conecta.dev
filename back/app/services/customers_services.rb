@@ -11,4 +11,8 @@ class CustomersServices
                  kind: Kind.find(params[:kind_id]),
                  country: Country.find(params[:country_id]))
   end
+
+  def search(name)
+    Customer.where('name LIKE ?', "%#{name}%")
+  end
 end
