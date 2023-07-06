@@ -42,6 +42,7 @@ const Home = () => {
 
   const showListPage = () => {
     setCurrentPage(DisplayPagesEnum.listCustomer)
+    fetchCustomersList('');
   }
 
   const onSearchChange = (e: any) => {
