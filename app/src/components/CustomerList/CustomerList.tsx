@@ -4,14 +4,14 @@ import CustomerModal from "../CustomerModal/CustomerModal";
 import { useCustomersList } from "../../hooks/customers/useCustomersList.hook";
 
 import "./CustomerList.style.css"
+import CustomerDataService from "../../services/CustomerDataService";
 
 type Props = {
-  onDeleteClickHnd: (data: ICustomer) => void;
   onEditClickHnd: (data: ICustomer) => void;
 };
 
 const CustomerList = (props: Props) => {
-  const { onDeleteClickHnd, onEditClickHnd } = props;
+  const { onEditClickHnd } = props;
   const [showCustomerModal, setShowCustomerModal] = useState(false);
   const [currentCustomerId, setCurrentCustomerId] = useState(0);
 
@@ -20,7 +20,14 @@ const CustomerList = (props: Props) => {
   const onDetailClick = (id: number) => {
     setCurrentCustomerId(id);
     setShowCustomerModal(true)
-  }
+  };
+
+  const onDeleteClick = (id: number) => {
+    CustomerDataService.delete(id)
+      .then(() => {
+        window.location.reload()
+      });
+  };
 
   const onCloseModalClick = () => {
     setShowCustomerModal(false)
@@ -50,7 +57,7 @@ const CustomerList = (props: Props) => {
                 <div>
                   <input type="button" value="Details" onClick={() => onDetailClick(customer.id)}  />
                   <input type="button" value="Edit" onClick={()=> onEditClickHnd(customer.id)} />
-                  <input type="button" value="Delete" onClick={() => onDeleteClickHnd(customer.id)} />
+                  <input type="button" value="Delete" onClick={() => onDeleteClick(customer.id)} />
                 </div>
               </td>
             </tr>
