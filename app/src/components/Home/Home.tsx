@@ -5,13 +5,10 @@ import CustomerList from "../CustomerList/CustomerList";
 import AddCustomer from "../AddCustomer/AddCustomer";
 import { DisplayPagesEnum } from "../../enums/DisplayPagesEnum";
 import EditCustomer from "../EditCustomer/EditCustomer";
-import { ICustomer } from "../../types/Customer.type";
 
 const Home = () => {
   const [currentPage, setCurrentPage] = useState(DisplayPagesEnum.listCustomer);
-
-  // const [customerList, setCustomerList] = useState(dummyCustomerList as ICustomer[]);
-  const [currentCustomer, setCurrentCustomer] = useState(null as null | ICustomer)
+  const [currentCustomerId, setCurrentCustomerId] = useState(0)
 
   // const { customerList } = useCustomersList();
 
@@ -23,25 +20,9 @@ const Home = () => {
     setCurrentPage(DisplayPagesEnum.listCustomer)
   }
 
-  const editCustomer = (data: ICustomer) => {
+  const editCustomer = (id: number) => {
+    setCurrentCustomerId(id);
     setCurrentPage(DisplayPagesEnum.editCustomer);
-    setCurrentCustomer(data);
-  }
-
-  const delCustomer = (data: ICustomer) => {
-    // const indexToDelete = customerList.indexOf(data);
-    // const tempList = [...customerList];
-
-    // tempList.splice(indexToDelete, 1);
-    // setCustomerList(tempList);
-  }
-
-  const updateCustomer = (data: ICustomer) => {
-    // const filteredData = customerList.filter(x=> x.id === data.id)[0];
-    // const indexToUpdate = customerList.indexOf(filteredData);
-    // const tempList = [...customerList];
-    // tempList[indexToUpdate] = data;
-    // setCustomerList(tempList);
   }
 
   return(
@@ -60,14 +41,14 @@ const Home = () => {
               <h3>Customers</h3>
               <hr />
             </div>
-            <CustomerList onEditClickHnd={editCustomer} onDeleteClickHnd={delCustomer} />
+            <CustomerList onEditClickHnd={editCustomer} />
           </>
         }
         {currentPage == DisplayPagesEnum.addCustomer && ( 
           <AddCustomer onBackButtonClickHnd={showListPage} />
         )}
-        {currentPage == DisplayPagesEnum.editCustomer && currentCustomer != null && (
-          <EditCustomer customer={currentCustomer} onBackButtonClickHnd={showListPage} onUpdateButtonClickHnd={updateCustomer} />
+        {currentPage == DisplayPagesEnum.editCustomer && currentCustomerId != 0 && (
+          <EditCustomer customer_id={currentCustomerId} onBackButtonClickHnd={showListPage} />
         )}
       </section>
     </>

@@ -7,7 +7,7 @@ import "./CustomerList.style.css"
 import CustomerDataService from "../../services/CustomerDataService";
 
 type Props = {
-  onEditClickHnd: (data: ICustomer) => void;
+  onEditClickHnd: (customer_id: number) => void;
 };
 
 const CustomerList = (props: Props) => {

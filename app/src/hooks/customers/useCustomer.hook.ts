@@ -3,18 +3,17 @@ import { ICustomer } from "../../types/Customer.type";
 import CustomerDataService from "../../services/CustomerDataService";
 
 export const useCustomer = (customer_id: number) => {
-  const [customer, setCustomer] = useState<ICustomer | null>(null)
+  const [customer, setCustomer] = useState<ICustomer | any>()
 
-  async function fetchCustomersList(id: number) {
+  async function fetchCustomer(id: number) {
     CustomerDataService.getById(id)
       .then((response: { data: ICustomer}) => {
         setCustomer(response.data)
-        console.log(response.data)
       })
   }
 
   useEffect(() => {
-    fetchCustomersList(customer_id)
+    fetchCustomer(customer_id)
   }, [])
 
   return { customer }

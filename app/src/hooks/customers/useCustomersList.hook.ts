@@ -9,7 +9,6 @@ export const useCustomersList = () => {
     CustomerDataService.getAll()
       .then((response: { data: ICustomer[]}) => {
         setCustomersList(response.data)
-        console.log(response.data)
       })
   }
 

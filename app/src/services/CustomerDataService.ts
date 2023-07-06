@@ -14,6 +14,10 @@ class CustomerDataService {
     return http.post<ICustomer>("/customers", data);
   }
 
+  update(id: number, data: any) {
+    return http.put<ICustomer>(`/customers/${id}`, data);
+  }
+
   delete( id: number) {
     return http.delete<any>(`/customers/${id}`);
   }

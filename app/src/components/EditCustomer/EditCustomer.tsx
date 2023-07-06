@@ -1,19 +1,47 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useKindsList } from "../../hooks/kinds/useKindsList.hook";
+import { useCountriesList } from "../../hooks/countries/useCountriesList.hook";
+import CustomerDataService from "../../services/CustomerDataService";
+
+import { ICountry } from "../../types/Country.type";
+import { IKind } from "../../types/Kind.type";
+import { ICustomer } from "../../types/Customer.type";
+
 import "./EditCustomer.style.css"
-import { ICustomer } from "../../types/Customer.type"
 
 type Props = {
-  customer: ICustomer;
+  customer_id: number;
   onBackButtonClickHnd: () => void;
-  onUpdateButtonClickHnd: (data: ICustomer) => void;
 }
 
 const EditCustomer = (props: Props) => {
-  const {customer, onBackButtonClickHnd, onUpdateButtonClickHnd } = props
+  const {customer_id, onBackButtonClickHnd } = props
+  const { kindsList } = useKindsList();
+  const { countriesList } = useCountriesList();
+  const [ customer, setCustomer ] = useState<ICustomer | any>();
   
-  const [name, setName] = useState(customer.name);
-  const [email, setEmail] = useState(customer.email);
-  const [kind, setKind] = useState(customer.kind);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [kindId, setKindId] = useState<number>(0);
+  const [countryId, setCountryId] = useState<number>(0);
+ 
+  async function fetchCustomer(id: number) {
+    CustomerDataService.getById(id)
+    .then((response: { data: ICustomer}) => {
+      setCustomer(response.data)
+      var cusKind = kindsList.find((kind: IKind) => kind.description === response.data.kind) 
+      var cusCountry = countriesList.find((country: ICountry) => country.name === response.data.country) 
+      setName(response.data.name)
+      setEmail(response.data.email)
+      setKindId(cusKind.id)
+      setCountryId(cusCountry.id)
+    })
+  }
+
+  useEffect(() => {
+    fetchCustomer(customer_id)
+  },[kindsList, countriesList])
+
 
   const onNameChanged  = (e: any) => {
     setName(e.target.value)
@@ -23,52 +51,72 @@ const EditCustomer = (props: Props) => {
     setEmail(e.target.value)
   }
 
+  const onChangeCountry = (e: any) => {
+    setCountryId(e.target.value)
+  }
+
   const onKindChanged  = (e: any) => {
-    setKind(e.target.value)
+    setKindId(e.target.value)
   }
 
   const onSubmitButtonClick = (e:any) => {
     e.preventDefault();
-    const updatedCustomer : ICustomer = {
-      id: customer.id,
+    const data = {
       name: name,
       email: email,
-      subscriber_email: undefined,
-      kind: kind,
-      country: "USA",
-      password: "8a6e0804-2bd0-4672",
-      log_entries: 1,
-      orders: 1,
-      life_value: 100.2   
-    }
-    onUpdateButtonClickHnd(updatedCustomer);
+      kind_id: kindId,
+      country_id: countryId
+    };
+
+    CustomerDataService.update(customer_id, data)
+      .then((response: any) => {
+        if (response.status == 200) {
+          onBackButtonClickHnd();
+        }
+      })
     onBackButtonClickHnd();
   }
 
   return(
-    <div className="form-container">
-      <div>
-        <h3>Edit Customer</h3>
+    <>
+      {customer && (
+      <div className="form-container">
+        <div>
+          <h3>Edit Customer</h3>
+        </div>
+        <form onSubmit={onSubmitButtonClick}>
+          <div>
+            <label>Name :</label>
+            <input type="text" value={name} onChange={onNameChanged} />
+          </div>
+          <div>
+            <label>Email :</label>
+            <input type="text" value={email} onChange={onEmailChanged} />          
+          </div>
+          <div>
+            <label>Country :</label>
+            <select value={countryId} onChange={onChangeCountry}>
+              { countriesList && countriesList.map((c: ICountry, index: number) => (
+                <option key={index} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label>Kind :</label>
+            <select value={kindId} onChange={onKindChanged}>
+              { kindsList && kindsList.map((k: IKind, index: number) => (
+                <option key={index} value={k.id}>{k.description}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <input type="button" value="Back" onClick={ onBackButtonClickHnd } />
+            <input type="submit" value="Save" />
+          </div>
+        </form>
       </div>
-      <form onSubmit={onSubmitButtonClick}>
-        <div>
-          <label>Name :</label>
-          <input type="text" value={name} onChange={onNameChanged}/>
-        </div>
-        <div>
-          <label>Email :</label>
-          <input type="text" value={email} onChange={onEmailChanged}/>          
-        </div>
-        <div>
-          <label>Kind :</label>
-          <input type="text" value={kind} onChange={onKindChanged}/>
-        </div>
-        <div>
-          <input type="button" value="Back" onClick={ onBackButtonClickHnd } />
-          <input type="submit" value="Save" />
-        </div>
-      </form>
-    </div>
+      )}
+    </>
   )
 }
 
