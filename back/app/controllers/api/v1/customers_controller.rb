@@ -18,9 +18,22 @@ module Api
         end
       end
 
+      def create
+        @customer = CustomersServices.new.build(customer_params)
+        if @customer.save
+          render json: @customer, status: :created
+        else
+          render json: { message: 'Invalid customer attributes' }, status: :unprocessable_entity
+        end
+      end
+
       private
       def set_customer
         @customer = Customer.find(params[:id])
+      end
+
+      def customer_params
+        params.permit(:name, :email, :kind_id, :country_id)
       end
     end
   end

@@ -21,4 +21,19 @@ RSpec.describe "Api::V1::Customers", type: :request do
       end
     end
   end
+
+  describe "#create" do
+    let(:country) { create(:country, name: 'Brazil') }
+    let(:kind) { create(:kind, description: 'standard') }
+    
+    let(:params) { { name: 'John Doe', email: 'john_doe@example.com', 
+                     kind_id: kind.id, country_id: country.id} }
+    it 'with valid params' do
+      aggregate_failures do
+        post api_v1_customers_path, params: params
+        expect(response).to have_http_status(:created)
+        expect(JSON.parse(response.body)['name']).to eq 'John Doe'
+      end
+    end
+  end
 end
