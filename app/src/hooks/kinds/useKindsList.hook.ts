@@ -1,8 +1,8 @@
 import { useState, useEffect }  from "react";
-import KindDataService from "../services/KindDataService";
-import { IKind } from "../types/Kind.type";
+import KindDataService from "../../services/KindDataService";
+import { IKind } from "../../types/Kind.type";
 
-export const KindsList = () => {
+export const useKindsList = () => {
   const [kindsList, setKindsList] = useState<any>([])
 
   async function fetchKindsList() {

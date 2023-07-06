@@ -13,7 +13,7 @@ const Home = () => {
   // const [customerList, setCustomerList] = useState(dummyCustomerList as ICustomer[]);
   const [currentCustomer, setCurrentCustomer] = useState(null as null | ICustomer)
 
-  // const { customerList } = CustomersList();
+  // const { customerList } = useCustomersList();
 
   const onAddCustomerClick = () => {
     setCurrentPage(DisplayPagesEnum.addCustomer)

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ICustomer } from "../../types/Customer.type";
 import CustomerModal from "../CustomerModal/CustomerModal";
-import { CustomersList } from "../../hooks/CustomersList.hook";
+import { useCustomersList } from "../../hooks/customers/useCustomersList.hook";
 
 import "./CustomerList.style.css"
 
@@ -13,12 +13,12 @@ type Props = {
 const CustomerList = (props: Props) => {
   const { onDeleteClickHnd, onEditClickHnd } = props;
   const [showCustomerModal, setShowCustomerModal] = useState(false);
-  const [currentCustomer, setCurrentCustomer] = useState(null as ICustomer | null);
+  const [currentCustomerId, setCurrentCustomerId] = useState(0);
 
-  const { customersList } = CustomersList();
+  const { customersList } = useCustomersList();
 
-  const onDetailClick = (data: ICustomer) => {
-    setCurrentCustomer(data);
+  const onDetailClick = (id: number) => {
+    setCurrentCustomerId(id);
     setShowCustomerModal(true)
   }
 
@@ -48,7 +48,7 @@ const CustomerList = (props: Props) => {
               <td>{customer.kind}</td>
               <td>
                 <div>
-                  <input type="button" value="Details" onClick={() => onDetailClick(customer)}  />
+                  <input type="button" value="Details" onClick={() => onDetailClick(customer.id)}  />
                   <input type="button" value="Edit" onClick={()=> onEditClickHnd(customer.id)} />
                   <input type="button" value="Delete" onClick={() => onDeleteClickHnd(customer.id)} />
                 </div>
@@ -58,8 +58,8 @@ const CustomerList = (props: Props) => {
         })}
         </tbody>
       </table>
-      { showCustomerModal && currentCustomer != null && (
-        <CustomerModal onCloseClickHnd={onCloseModalClick} customer={currentCustomer}/>
+      { showCustomerModal && (
+        <CustomerModal onCloseClickHnd={onCloseModalClick} customer_id={currentCustomerId}/>
       )}
     </div>
   );

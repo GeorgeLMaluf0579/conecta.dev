@@ -2,8 +2,8 @@ import { useState, useEffect } from "react"
 import "./AddCustomer.style.css"
 import { ICustomer } from "../../types/Customer.type"
 import { IKind } from "../../types/Kind.type"
-import { KindsList } from "../../hooks/KindsList.hook"
-import { CountriesList } from "../../hooks/CountriesList.hook"
+import { useKindsList } from "../../hooks/kinds/useKindsList.hook"
+import { useCountriesList } from "../../hooks/countries/useCountriesList.hook"
 import { ICountry } from "../../types/Country.type"
 // import KindDataService from "../../services/KindDataService"
 
@@ -19,8 +19,8 @@ const AddCustomer = (props: Props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [kind, setKind] = useState("");
-  const { kindsList } = KindsList();
-  const { countriesList } = CountriesList();
+  const { kindsList } = useKindsList();
+  const { countriesList } = useCountriesList();
   
   const onNameChanged  = (e: any) => {
     setName(e.target.value)
@@ -36,18 +36,18 @@ const AddCustomer = (props: Props) => {
 
   const onSubmitButtonClick = (e:any) => {
     e.preventDefault();
-    const customer: ICustomer =  {
-      id: 1,
-      name: name,
-      email: email,
-      subscriber_email: undefined,
-      kind: kind,
-      country: "USA",
-      password: "8a6e0804-2bd0-4672",
-      log_entries: 1,
-      orders: 1,
-      life_value: 100.2
-    };
+    // const customer: ICustomer =  {
+    //   id: 1,
+    //   name: name,
+    //   email: email,
+    //   subscriber_email: undefined,
+    //   kind: kind,
+    //   country: "USA",
+    //   password: "8a6e0804-2bd0-4672",
+    //   log_entries: 1,
+    //   orders: 1,
+    //   life_value: 100.2
+    // };
     onSubmitButtonClickHnd(customer);
     onBackButtonClickHnd();
   }

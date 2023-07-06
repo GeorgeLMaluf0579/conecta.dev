@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
-import { ICustomer } from "../types/Customer.type";
-import CustomerDataService from "../services/CustomerDataService";
+import { ICustomer } from "../../types/Customer.type";
+import CustomerDataService from "../../services/CustomerDataService";
 
-export const CustomersList = () => {
+export const useCustomersList = () => {
   const [customersList, setCustomersList] = useState<any>([])
 
   async function fetchCustomersList() {

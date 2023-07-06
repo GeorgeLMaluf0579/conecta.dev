@@ -5,6 +5,10 @@ class CustomerDataService {
   getAll() { 
     return http.get<ICustomer[]>("/customers");
   }
+
+  getById( id:number) {
+    return http.get<ICustomer>(`/customers/${id}`)
+  }
 }
 
 export default new CustomerDataService;
