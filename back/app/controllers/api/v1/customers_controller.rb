@@ -3,7 +3,7 @@
 module Api
   module V1
     class CustomersController < ApplicationController
-      before_action :set_customer, only: %i[show destroy]
+      before_action :set_customer, only: %i[show update destroy]
 
       def index
         @customers = CustomersServices.new.list_all
@@ -22,6 +22,16 @@ module Api
         @customer = CustomersServices.new.build(customer_params)
         if @customer.save
           render json: @customer, status: :created
+        else
+          render json: { message: 'Invalid customer attributes' }, status: :unprocessable_entity
+        end
+      end
+
+      def update
+        if @customer.update(name: customer_params[:name], email: customer_params[:email],
+                            kind: Kind.find(customer_params[:kind_id]), 
+                            country: Country.find(customer_params[:country_id]))
+          render json: @customer, status: :ok
         else
           render json: { message: 'Invalid customer attributes' }, status: :unprocessable_entity
         end

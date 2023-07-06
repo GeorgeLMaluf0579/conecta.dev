@@ -8,6 +8,10 @@ RSpec.describe CountriesService do
       @countries_list = create_list(:country, 3)
     end
 
+    after do
+      Country.destroy_all
+    end
+
     subject(:service) { CountriesService.new }
     it 'expect return all objects' do
       aggregate_failures do

@@ -8,6 +8,10 @@ RSpec.describe KindsService do
       @kinds_list = create_list(:kind, 3)
     end
 
+    after do
+      DatabaseCleaner.clean
+    end
+
     subject(:service) { KindsService.new }
     it 'expect return all objects' do
       aggregate_failures do

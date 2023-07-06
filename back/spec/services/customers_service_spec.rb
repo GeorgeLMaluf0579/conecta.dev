@@ -10,6 +10,10 @@ RSpec.describe CustomersServices do
       @customers_list = create_list(:customer, 2)
     end
 
+    after do
+      DatabaseCleaner.clean
+    end
+
     it 'expect return all objects' do
       aggregate_failures do
         expect(service.list_all).not_to be_empty

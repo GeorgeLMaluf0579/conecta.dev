@@ -23,6 +23,12 @@ RSpec.describe 'Api::V1::Customers', type: :request do
   end
 
   describe '#create' do
+    after do
+      Customer.destroy_all
+      Kind.destroy_all
+      Country.destroy_all
+    end
+
     let(:country) { create(:country, name: 'Brazil') }
     let(:kind) { create(:kind, description: 'standard') }
 
@@ -30,6 +36,7 @@ RSpec.describe 'Api::V1::Customers', type: :request do
       { name: 'John Doe', email: 'john_doe@example.com',
         kind_id: kind.id, country_id: country.id }
     end
+
     it 'with valid params' do
       aggregate_failures do
         post api_v1_customers_path, params: params
@@ -39,9 +46,42 @@ RSpec.describe 'Api::V1::Customers', type: :request do
     end
   end
 
+  describe '#update' do
+    before do
+      @customer = create(:customer, name: 'John Doe', email: 'johndoe@example.com' )
+    end
+
+    after do
+      Customer.destroy_all
+      Kind.destroy_all
+      Country.destroy_all
+    end
+    
+    let(:country) { create(:country, name: 'Brazil') }
+    let(:kind) { create(:kind, description: 'professional') }
+    let(:params) do
+      { name: 'Fulano de Tal', email: 'fulanodetal@exemplo.com',
+        kind_id: kind.id, country_id: country.id }
+    end
+
+    it 'with valid params' do
+      aggregate_failures do
+        put api_v1_customer_path(@customer.id), params: params
+        expect(response).to have_http_status(:ok)
+        expect(JSON.parse(response.body)['name']).to eq 'Fulano de Tal'
+      end
+    end
+  end
+
   describe '#destroy' do
     before :all do
       @customer = create(:customer)
+    end
+
+    after :all do
+      Customer.destroy_all
+      Kind.destroy_all
+      Country.destroy_all
     end
 
     it 'returns a no content' do
