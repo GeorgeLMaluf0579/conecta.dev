@@ -1,21 +1,18 @@
 import { useState } from "react";
 import { ICustomer } from "../../types/Customer.type";
 import CustomerModal from "../CustomerModal/CustomerModal";
-import { useCustomersList } from "../../hooks/customers/useCustomersList.hook";
-
 import "./CustomerList.style.css"
 import CustomerDataService from "../../services/CustomerDataService";
 
 type Props = {
+  customersList: any | ICustomer[]
   onEditClickHnd: (customer_id: number) => void;
 };
 
 const CustomerList = (props: Props) => {
-  const { onEditClickHnd } = props;
+  const { customersList, onEditClickHnd } = props;
   const [showCustomerModal, setShowCustomerModal] = useState(false);
   const [currentCustomerId, setCurrentCustomerId] = useState(0);
-
-  const { customersList } = useCustomersList();
 
   const onDetailClick = (id: number) => {
     setCurrentCustomerId(id);

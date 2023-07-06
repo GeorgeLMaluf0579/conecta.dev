@@ -1,23 +1,51 @@
-import { useState } from "react";
-import "./Home.style.css"
-
+import { useEffect, useState } from "react";
 import CustomerList from "../CustomerList/CustomerList";
 import AddCustomer from "../AddCustomer/AddCustomer";
+import CustomerDataService from "../../services/CustomerDataService";
 import { DisplayPagesEnum } from "../../enums/DisplayPagesEnum";
 import EditCustomer from "../EditCustomer/EditCustomer";
+import { ICustomer } from "../../types/Customer.type";
+import "./Home.style.css"
 
 const Home = () => {
   const [currentPage, setCurrentPage] = useState(DisplayPagesEnum.listCustomer);
-  const [currentCustomerId, setCurrentCustomerId] = useState(0)
+  const [currentCustomerId, setCurrentCustomerId] = useState(0);
+  const [customersList, setCustomersList] = useState<ICustomer[]>([]);
+  const [searchName, setSearchName] = useState('');
 
-  // const { customerList } = useCustomersList();
+  async function fetchCustomersList(searchTerm: string) {
+    if (typeof searchTerm === 'string' && searchTerm.trim().length === 0) {
+      CustomerDataService.getAll()
+        .then((response: { data: ICustomer[]}) => {
+          setCustomersList(response.data);
+        });
+    } else {
+      CustomerDataService.searchByName(searchTerm)
+        .then((response: { data: ICustomer[]}) => {
+          setCustomersList(response.data);
+        })
+    }
+  }
+
+  useEffect(() => {
+    fetchCustomersList(searchName)
+  }, [])
 
   const onAddCustomerClick = () => {
     setCurrentPage(DisplayPagesEnum.addCustomer)
   }
 
+  const onSearchClick = (e:any) => {
+    e.preventDefault();
+    fetchCustomersList(searchName);
+  }
+
   const showListPage = () => {
     setCurrentPage(DisplayPagesEnum.listCustomer)
+  }
+
+  const onSearchChange = (e: any) => {
+    setSearchName(e.target.value)
   }
 
   const editCustomer = (id: number) => {
@@ -36,12 +64,20 @@ const Home = () => {
       <section className="section-content">
         {currentPage == DisplayPagesEnum.listCustomer && 
           <>
-            <input  className="add-customer-btn" type="button" value="New Customer"  onClick={onAddCustomerClick}/>
             <div>
-              <h3>Customers</h3>
+              <div>
+                <h3>Customers</h3>
+                <div>
+                  <form onSubmit={onSearchClick}>
+                    <input type="text" placeholder="Search by name" onChange={onSearchChange} />
+                    <input type="submit" value="Search" />
+                  </form>
+                </div>
+                <input className="add-customer-btn" type="button" value="New Customer"  onClick={onAddCustomerClick}/>
+              </div>
               <hr />
             </div>
-            <CustomerList onEditClickHnd={editCustomer} />
+            <CustomerList customersList={customersList}  onEditClickHnd={editCustomer} />
           </>
         }
         {currentPage == DisplayPagesEnum.addCustomer && ( 
