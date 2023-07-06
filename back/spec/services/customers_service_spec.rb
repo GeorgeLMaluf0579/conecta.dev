@@ -2,17 +2,17 @@
 
 require 'rails_helper'
 
-RSpec.describe CountriesService do
+RSpec.describe CustomersServices do
   describe "#list_all" do
     before do
-      @countries_list = create_list(:country, 3)
+      @customers_list = create_list(:customer, 2)
     end
 
-    subject(:service) { CountriesService.new }
+    subject(:service) { CustomersServices.new }
     it 'expect return all objects' do
       aggregate_failures do
         expect(service.list_all).not_to be_empty
-        expect(service.list_all.count).to eq 3
+        expect(service.list_all.count).to eq 2
       end
     end
   end

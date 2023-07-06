@@ -10,7 +10,6 @@ docker-setupdb:
 	  docker-compose run back bundle exec rake db:drop db:create db:migrate
 		docker-compose run back bundle exec rake db:seed
 		docker-compose run back bundle exec rake db:drop db:create db:migrate RAILS_ENV=test
-		docker-compose run back bundle exec rake db:seed RAILS_ENV=test
 
 #RUN
 docker-run:

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe KindsService do
   describe "#list_all" do
-    before :all do
+    before do
       @kinds_list = create_list(:kind, 3)
     end
 
